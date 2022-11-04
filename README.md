@@ -1,5 +1,5 @@
 
-# Nuxt auth Role and Permission
+# Starter Template Laravel Hydra Repo
 
 Requirements
 
