@@ -20,11 +20,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 //use the middleware 'hydra.log' with any request to get the detailed headers, request parameters and response logged in logs/laravel.log
-Route::apiResource('users', UserController::class)->except(['edit', 'create', 'store', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('users', [UserController::class, 'store']);
-Route::put('users/{user}', [UserController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
-Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 Route::post('login', [AuthController::class, 'login']);
-
+Route::apiResource('users', UserController::class)->except(['edit', 'create', 'store', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('users/{user}', [UserController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
 Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
 Route::apiResource('users.roles', UserRoleController::class)->except(['create', 'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+

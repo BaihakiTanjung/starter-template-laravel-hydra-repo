@@ -13,11 +13,6 @@ use App\Http\Helpers\ResponseHelpers;
 class UserRepositoryImplement extends Eloquent implements UserRepository
 {
 
-    /**
-     * Model class to be used in this repository for the common methods inside Eloquent
-     * Don't remove or change $this->model variable name
-     * @property Model|mixed $model;
-     */
     protected $model;
 
     public function __construct(User $model)
@@ -104,6 +99,12 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         return ResponseHelpers::sendSuccess('user logged in', ['error' => 0, 'id' => $user->id, 'token' => $plainTextToken]);
     }
 
+    public function logout($request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return ResponseHelpers::sendSuccess('user logged out', ['error' => 0]);
+    }
+
     public function destroy($id)
     {
         $this->model = $this->model->find($id);
@@ -125,6 +126,8 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
 
     public function me($request)
     {
-        return $request->user();
+        $roles = $request->user()->roles->pluck('slug')->all();
+
+        return ResponseHelpers::sendSuccess('user data', [$request->user(), $roles]);
     }
 }

@@ -12,5 +12,6 @@ interface UserRepository extends Repository
     public function update($request, $id);
     public function destroy($id);
     public function login($request);
+    public function logout($request);
     public function me($request);
 }
